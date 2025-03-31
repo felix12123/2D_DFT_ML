@@ -1,0 +1,4 @@
+[run]
+omit = src/comp_mlts.py
+    src/reservoir_utils.py
+    src/sim_acc.py

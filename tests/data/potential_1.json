@@ -1,0 +1,17 @@
+{
+    "amplitudes": [],
+    "L": 10.0,
+    "mu": 0.5,
+    "periods_y": [],
+    "periods_x": [],
+    "plat_position_y": [],
+    "dx": 0.05,
+    "phases": [],
+    "plat_position_x": [],
+    "beta": 1,
+    "plat_heights": [],
+    "plat_size_x": [],
+    "wall_thickness": 0.0,
+    "wall": "n",
+    "plat_size_y": []
+}
