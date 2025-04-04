@@ -17,6 +17,7 @@ Then one can install all dependencies (including `PyTorch`) with
 
 ```text
 uv sync
+source .venv/bin/activate
 ```
 
 and run the main file with
