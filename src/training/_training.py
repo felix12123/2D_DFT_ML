@@ -78,12 +78,12 @@ def log_test_progress(self, writer, epoch, rho_profiles, c1_profiles, device):
     
     
 
-def log_kernels_tb(self, writer, epoch):
+def log_kernels_tb(self:'MLTraining', writer, epoch):
     if hasattr(self.model, 'collect_all_kernels') and hasattr(self.model, "omegas"):
-        writer.add_figure('Kernels/omegas', self.show_kernels(), epoch)
+        writer.add_figure('Kernels/omegas', self.show_kernels(conv_layer=0, output_file=""), epoch)
     if hasattr(self.model, 'collect_all_kernels') and hasattr(self.model, "omegas1") and hasattr(self.model, "omegas2"):
-        writer.add_figure('Kernels/conv1', self.show_kernels(conv_layer=0), epoch)
-        writer.add_figure('Kernels/conv2', self.show_kernels(conv_layer=1), epoch)
+        writer.add_figure('Kernels/conv1', self.show_kernels(conv_layer=0, output_file=""), epoch)
+        writer.add_figure('Kernels/conv2', self.show_kernels(conv_layer=1, output_file=""), epoch)
     
 
 def add_tensorboard_info(self, writer, device):
@@ -106,8 +106,8 @@ def train(self:'MLTraining', epochs: int, loglevel=0):
         if loglevel <= 1: print("no epochs to train")
         return self.model, 0
 
-    if loglevel <= 1: print("start training of following model with data from folder %s" %
-              self.datafolder)
+    if loglevel <= 1: print("start training of following model with data from folder %s for %d epochs" %
+              (self.datafolder, epochs))
     if os.path.dirname(self.model_savepath) != "":
         os.makedirs(os.path.dirname(self.model_savepath), exist_ok=True)
     

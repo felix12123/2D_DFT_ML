@@ -137,7 +137,7 @@ def get_default_mliter_folder(self:'MLTraining', potfolder):
     model_iter_folder = self.workspace + "/ML_iter/" + potfolder.split("/")[-1]
     return model_iter_folder
     
-def demo_model_iteration(self:'MLTraining', plotfolder=None, potfolder=None, compfolder=None, model_iter_folder=None, max_iter: int = 1000, eps: float = 1e-5, comparison_vs="Sim", L=10, Vext_integration_n=7):
+def demo_model_iteration(self:'MLTraining', plotfolder=None, potfolder=None, compfolder=None, model_iter_folder=None, max_iter: int = 500, eps: float = 1e-5, comparison_vs="Sim", L=10, Vext_integration_n=7):
     """
     Demonstrates the model iteration process by generating and comparing density profiles 
     from machine learning predictions and reference data. This function also creates plots 

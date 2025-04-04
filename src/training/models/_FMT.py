@@ -9,7 +9,7 @@ from ._baseclass import BaseModel
 # In practice, it is easier to implement this by flipping the input tensor before and after the second convolution.
 class Model_FMT(BaseModel):
     """Model that is strongly inspired by the FMT definition of c_1"""
-    def __init__(self, Nd, Nn=16, hidden_channels=64, hidden_layers=6, convtype=nn.Conv2d, activation=Swish):
+    def __init__(self, Nd:int, Nn:int=16, hidden_channels:int=64, hidden_layers:int=6, convtype=nn.Conv2d, activation=Swish):
         """Initializes a Model_FMT object
 
         Args:

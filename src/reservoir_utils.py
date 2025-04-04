@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from src.training._simfolder_utils import max_file_num, check_df_integrity, get_rho, get_rho_unc, get_c1
+from src.training._simfolder_utils import max_file_num, get_rho, get_rho_unc, get_c1, check_df_health, get_Vext
 
 import matplotlib.pyplot as plt
 
@@ -90,7 +90,7 @@ def asses_reservoir(dir, plot_dir=None):
 
 # function that renames the rho_i potential_i and rhostd_i files to a new random j index
 def rename_files(datafolder:str):
-    check_df_integrity(datafolder)
+    check_df_health(datafolder)
     max_file = max_file_num(datafolder)
     for i in range(1, max_file+1):
         os.rename(datafolder + f"/rho_{i}.csv", datafolder + f"/rho_{i}.csv.bak")
@@ -103,7 +103,7 @@ def rename_files(datafolder:str):
         os.rename(datafolder + f"/potential_{i+1}.json.bak", datafolder + f"/potential_{j}.json")
         os.rename(datafolder + f"/rhostd_{i+1}.csv.bak", datafolder + f"/rhostd_{j}.csv")
     
-    check_df_integrity(datafolder)
+    check_df_health(datafolder)
     print(f"Renamed {max_file} files in {datafolder} to random indices.")
     
 

@@ -203,7 +203,6 @@ def get_rho_func(Nx, Ny, Lx, Ly, R):
     cal_c1c = get_c1_func(R,cal_n1, cal_n2, cal_nx, cal_ny, cal_nxx, cal_nyy, cal_nxy, cal_conv_nx, cal_conv_ny)
 
     X,Y = np.meshgrid(np.linspace(Lx/Nx/2,Lx-Lx/Nx/2,Nx),np.linspace(Ly/Ny/2,Ly-Ly/Ny/2,Ny))
-    
     def f(mu,V,tol):
         expmvext = np.exp(-V(X,Y) if callable(V) else -V)        
         rho0 = 0.5

@@ -141,8 +141,8 @@ def calculate_Vext(datafolder:str, i:int, n:int=7):
     L = params["L"]
     dx = params["dx"]
     
-    l = int(L/dx)
-    dx_large = dx/n # dx of the large grid
+    l = int(np.ceil((L/dx)))
+    dx_large = L/(l*n) # dx of the large grid
     
     xs = np.linspace(dx_large/2, L-dx_large/2, l*n)
     X, Y = np.meshgrid(xs, xs)

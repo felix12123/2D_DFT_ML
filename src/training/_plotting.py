@@ -564,8 +564,19 @@ def collect_all_kernels(conv2d_layer:nn.Conv2d):
     return kernels
 
 
-def show_kernels(self, output_file='', num_kernels=None, conv_layer=0, title=""):
-    # Ensure the model is on the CPU
+def show_kernels(self, output_file=None, num_kernels=None, conv_layer=None, title=""):
+    if output_file is None:
+        output_file = self.workspace + "/plots/kernels.pdf"
+    
+    if conv_layer is None:
+        conv_layers = range(len(self.model.collect_all_kernels()))
+        output = []
+        for i in conv_layers:
+            filename = output_file.split(".")[0] + f"_{i+1}." + output_file.split(".")[-1]
+            out = self.show_kernels(output_file=filename, num_kernels=num_kernels, conv_layer=i, title=title)
+            output.append(out)
+        return output
+    
     # Get the first convolutional layer
     kernels = self.model.collect_all_kernels()[conv_layer]
     
@@ -577,7 +588,7 @@ def show_kernels(self, output_file='', num_kernels=None, conv_layer=0, title="")
     
     # Plot the kernel matrix
     plt.rc("font", size=10)
-    fig = plt.figure(figsize=(6, 6), facecolor=(1,1,1,0))
+    fig = plt.figure(figsize=(6, 6), facecolor=(1,1,1,0), dpi=300)
     max_diff = max(abs(kernel_matrix[np.isfinite(kernel_matrix)].min()), abs(kernel_matrix[np.isfinite(kernel_matrix)].max()))
     norm = TwoSlopeNorm(vmin=-max_diff, vcenter=0, vmax=max_diff)
     plt.imshow(kernel_matrix, cmap='coolwarm', norm=norm)

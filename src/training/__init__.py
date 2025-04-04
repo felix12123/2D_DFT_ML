@@ -29,7 +29,7 @@ def estimate_num_batches(datafolder, batchsize, traintest_split=0.8, L=10, dx=0.
 
 # define class to contain the model, optimizer, loss function, metric function etc
 class MLTraining:
-    def __init__(self, folder, model, L, dx, datafolder, criterion=nn.MSELoss(), optimizer_class=torch.optim.Adam, metric=nn.L1Loss(), trained_epochs=0, windowed=True, batchsize=64, shuffle=True, num_workers=4, traintest_split=0.8, save_interval=1, lr_decay=None, batch_lr_decay=1-2e-5, lr_start=3e-4, min_lr=0, device=None, total_batches=None):
+    def __init__(self, folder:str, model:nn.Module, L:float, dx:float, datafolder:str, criterion=nn.MSELoss(), optimizer_class=torch.optim.Adam, metric=nn.L1Loss(), trained_epochs:int=0, windowed:bool=True, batchsize:int=64, shuffle:bool=True, num_workers:int=4, traintest_split:float=0.8, save_interval=1, lr_decay:float=None, batch_lr_decay:float=1-2e-5, lr_start:float=3e-4, min_lr:float=0, device=None, total_batches:int=None):
         """
         Initialize the MLTraining class. This class contains the model, optimizer, loss function, metric function, and other parameters for training the model.
         It also contains methods for training the model, logging the training progress, and saving the model.
@@ -63,7 +63,7 @@ class MLTraining:
         if device is None:
             device = "cuda" if torch.cuda.is_available() else "cpu"
         if not os.path.exists(datafolder):
-            raise ValueError("Data folder does not exist")
+            raise ValueError(f"Data folder {datafolder} does not exist")
             
         ### default values ###
         # check if model is constructor
