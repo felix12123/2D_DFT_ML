@@ -152,7 +152,7 @@ class MLTraining:
     
 
 
-def load_MLTraining(workspace: str, device=None) -> 'MLTraining':
+def load_MLTraining(workspace: str) -> 'MLTraining':
     """
     Load an MLTraining object from a folder containing the saved parameters and model states.
 
@@ -185,9 +185,7 @@ def load_MLTraining(workspace: str, device=None) -> 'MLTraining':
     with open(params_path, "r") as json_file:
         params = json.load(json_file)
 
-    # Set the device if not provided
-    if device is None:
-        device = params.get("device", "cuda" if torch.cuda.is_available() else "cpu")
+    device = params.get("device", "cuda" if torch.cuda.is_available() else "cpu")
 
     # Dynamically create the model using the model type from the JSON file
     model_class = getattr(__import__('src.training.models', fromlist=[params["model"]]), params["model"])

@@ -95,7 +95,7 @@ def ensure_model_iter_existance(self, potfolder=None, ml_iter_savefolder=None, e
         ml_iter_savefolder = self.workspace + "/iters/" + potfolder.split("/")[-1]
     
     if max_file_num(ml_iter_savefolder) < max_file_num(potfolder):
-        create_model_iteration_profiles(self, potfolder=potfolder, ml_iter_folder=ml_iter_savefolder, tol=eps, max_iter=max_iter, Vext_integration_n=Vext_integration_n, device=self.device)
+        create_model_iteration_profiles(self, potfolder=potfolder, ml_iter_folder=ml_iter_savefolder, tol=eps, max_iter=max_iter, Vext_integration_n=Vext_integration_n)
 
 def ensure_fmt_iter_existance(self, potfolder=None, fmt_savefolder=None, eps=1e-5, L=10):
     """Ensures that the FMT profiles exist for all profiles in the datafolder"""

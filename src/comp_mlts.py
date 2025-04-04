@@ -27,12 +27,6 @@ def compare_mlts(mlts, max_iter=500, tol=1e-6, model_names=None, savepath=None, 
         model_names = [str(i+1) for i in range(len(mlts))]
     assert len(mlts) == len(model_names)
 
-    # load rho and c1 profiles
-    rho_profiles = []
-    c1_profiles = []
-    for i in range(1, max_file_num(mlts[0].datafolder)+1):
-        rho_profiles.append(get_rho(mlts[0].datafolder, i))
-        c1_profiles.append(get_c1(mlts[0].datafolder, i, rho_profiles[-1]))
 
     # benchmark the models
     iter_losses = []
@@ -41,6 +35,12 @@ def compare_mlts(mlts, max_iter=500, tol=1e-6, model_names=None, savepath=None, 
     c1_metrics = []
     iter_times = []
     for i in range(len(mlts)):
+        # load rho and c1 profiles
+        rho_profiles = []
+        c1_profiles = []
+        for j in range(1, max_file_num(mlts[i].datafolder)+1):
+            rho_profiles.append(get_rho(mlts[i].datafolder, j))
+            c1_profiles.append(get_c1(mlts[i].datafolder, j, rho_profiles[-1]))
         all_c1_losses, all_c1_metrics = bench_c1(
             mlts[i], rhos=rho_profiles, c1s=c1_profiles)
         c1_losses.append(all_c1_losses.mean())

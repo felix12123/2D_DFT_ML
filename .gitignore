@@ -150,3 +150,5 @@ train_data
 *.csv
 paper/*
 todos.txt
+examples/data
+examples/*mlt*

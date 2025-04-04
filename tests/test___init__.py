@@ -112,7 +112,7 @@ def test_load_MLTraining(test_res):
     mlt.save()
     
     # test if the model is saved correctly
-    instance = load_MLTraining(folder, device)
+    instance = load_MLTraining(folder)
     
 
     assert instance.workspace == folder
