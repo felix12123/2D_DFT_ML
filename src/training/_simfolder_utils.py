@@ -202,6 +202,7 @@ def get_c1(folder:str, i:int, rho=None, Vext=None)->np.ndarray:
     beta = load_potential_params(folder + f"/pot/potential_{i}.json")["beta"]
     c1 = np.zeros_like(rho)
     c1[rho > 0] = np.log(rho[rho > 0]) + beta * Vext[rho > 0]
+    c1[rho == 0] = np.nan
     
     return c1
 

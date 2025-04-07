@@ -79,27 +79,31 @@ def get_train_window_dls(folder: str, win_rad: int, total_batches: int, batchsiz
         N_train = N - 1
     if N_train <= 0:
         raise ValueError("Not enough files in folder to create training set")
-    print("N_train = %d, N = %d" % (N_train, N))
+    # print("N_train = %d, N = %d" % (N_train, N))
         
     rho_profiles_original = []
     c1_profiles_original = []
-    for i in range(1, N_train+1):
-        rho_profiles_original.append(get_rho(folder, i))
-        c1_profiles_original.append(get_c1(folder, i, rho_profiles_original[-1]))
+    for i in range(1, N+1):
+        rho = get_rho(folder, i)
+        c1 = get_c1(folder, i, rho)
+        rho_profiles_original.append(rho)
+        c1_profiles_original.append(c1)
     # we want mirrored versions of each profile in the profile lists
-    rho_profiles, c1_profiles = add_flipped_versions(rho_profiles_original, c1_profiles_original)
+    rho_profiles, c1_profiles = add_flipped_versions(rho_profiles_original[:N_train], c1_profiles_original[:N_train])
     
-    print("%d files found in training set, %d profiles created after mirroring" % (len(rho_profiles)//4, len(rho_profiles)))
+    # print("%d files found in training set, %d profiles created after mirroring" % (len(rho_profiles)//4, len(rho_profiles)))
 
 
     L = len(rho_profiles[0])
     
     num_valid_windows = np.array([get_num_valid_windows_all(rho, c1) for (rho, c1) in zip(rho_profiles, c1_profiles)])
+    
 
     if percent_used == None:
-        percent_used = total_batches * batchsize / (np.sum(num_valid_windows))
+        windows_needed = total_batches * batchsize
+        percent_used = windows_needed / np.sum(num_valid_windows)
         percent_used = min(1, percent_used)
-        print("Using %.2f%% of the available data" % (percent_used*100))
+        # print("Using %.2f%% of the available data" % (percent_used*100))
 
     windows_per_file = np.ceil(num_valid_windows * percent_used).astype(int)
 
@@ -120,11 +124,15 @@ def get_train_window_dls(folder: str, win_rad: int, total_batches: int, batchsiz
             x = valid_indexes[0][i]
             y = valid_indexes[1][i]
             window_container_train[current_index, 0, :,:] = padded_rho[x:x+2*win_rad+1, y:y+2*win_rad+1]
-            c1_container_train[current_index, 0, :,:] = c1_profiles[n][x,y]
+            c1_container_train[current_index, 0, 0, 0] = c1_profiles[n][x,y]
             current_index += 1
     
-        
+    window_container_train = window_container_train[:current_index]
+    c1_container_train = c1_container_train[:current_index]
+    
     assert all(np.isfinite(c1_container_train))
+    assert all(c1_container_train != 0)
+    assert all(window_container_train[:, :, win_rad, win_rad] > 0) # check that the center of the window is not zero
     
     # create DataLoader objects
     train_data = torch.utils.data.TensorDataset(torch.from_numpy(window_container_train), torch.from_numpy(c1_container_train))
