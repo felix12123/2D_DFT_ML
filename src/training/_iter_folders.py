@@ -61,7 +61,7 @@ def create_FMT_profiles(simfolder:str, eps:float=1e-5, L:float=10, savefolder=No
     print("finished!")
 
 
-def create_model_iteration_profiles(self:'MLTraining', potfolder:str=None, ml_iter_folder:str=None, tol:float=1e-6, L:float=10, max_iter=750, Vext_integration_n=7):
+def create_model_iteration_profiles(self:'MLTraining', potfolder:str=None, ml_iter_folder:str=None, tol:float=1e-6, L:float=10, max_iter=500, Vext_integration_n=7):
     """Create model iteration profiles for all profiles in the datafolder"""
     if potfolder is None:
         potfolder = self.datafolder
@@ -87,7 +87,7 @@ def create_model_iteration_profiles(self:'MLTraining', potfolder:str=None, ml_it
 
 
 
-def ensure_model_iter_existance(self, potfolder=None, ml_iter_savefolder=None, eps=1e-5, max_iter=1000, Vext_integration_n=7):
+def ensure_model_iter_existance(self, potfolder=None, ml_iter_savefolder=None, eps=1e-5, max_iter=500, Vext_integration_n=7):
     """Ensures that the model iteration profiles exist for all profiles in the datafolder"""
     if potfolder is None:
         potfolder = self.datafolder

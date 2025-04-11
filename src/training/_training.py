@@ -61,7 +61,7 @@ def log_train_progress(self, writer, epoch, loss, metric):
 def log_test_progress(self, writer, epoch, rho_profiles, c1_profiles, device):
     N = len(rho_profiles)
     N_train = int(N*self.traintest_split)
-    N_train -= N_train % 4 # make sure that the number of training profiles is a multiple of 4
+    N_train = min(N_train, N-1)
     N_test = N - N_train
     
     test_loss = self.calc_criterion(rho_profiles[-N_test:], c1_profiles[-N_test:], self.criterion, device).mean()
@@ -138,6 +138,7 @@ def train(self:'MLTraining', epochs: int, loglevel=0):
     ##### DATA LOADER #####
     if loglevel <= 1: print("loading data...", end="")
     trainloader, rho_profiles, c1_profiles = self.create_dataloader()
+    
     if loglevel <= 1: print(" done! %d training samples" %
               (len(trainloader.dataset)))
     if loglevel <= 0: print("size of windows: %dx%d" % (

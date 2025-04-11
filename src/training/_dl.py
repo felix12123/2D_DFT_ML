@@ -79,8 +79,7 @@ def get_train_window_dls(folder: str, win_rad: int, total_batches: int, batchsiz
         N_train = N - 1
     if N_train <= 0:
         raise ValueError("Not enough files in folder to create training set")
-    # print("N_train = %d, N = %d" % (N_train, N))
-        
+    
     rho_profiles_original = []
     c1_profiles_original = []
     for i in range(1, N+1):
@@ -91,8 +90,6 @@ def get_train_window_dls(folder: str, win_rad: int, total_batches: int, batchsiz
     # we want mirrored versions of each profile in the profile lists
     rho_profiles, c1_profiles = add_flipped_versions(rho_profiles_original[:N_train], c1_profiles_original[:N_train])
     
-    # print("%d files found in training set, %d profiles created after mirroring" % (len(rho_profiles)//4, len(rho_profiles)))
-
 
     L = len(rho_profiles[0])
     
@@ -103,7 +100,6 @@ def get_train_window_dls(folder: str, win_rad: int, total_batches: int, batchsiz
         windows_needed = total_batches * batchsize
         percent_used = windows_needed / np.sum(num_valid_windows)
         percent_used = min(1, percent_used)
-        # print("Using %.2f%% of the available data" % (percent_used*100))
 
     windows_per_file = np.ceil(num_valid_windows * percent_used).astype(int)
 
@@ -112,14 +108,14 @@ def get_train_window_dls(folder: str, win_rad: int, total_batches: int, batchsiz
     
     current_index = 0
     padded_rho = np.zeros((L+win_rad*2, L+win_rad*2), np.float32)
-    for n in range(N_train):
+    for n in range(len(rho_profiles)):
         padded_rho = np.pad(rho_profiles[n], win_rad, 'wrap') # pad rho with periodic boundary conditions
         
         # determine which windows to use via shuffeling
         valid_indexes = get_valid_windows(rho_profiles[n], c1_profiles[n]) # get all valid coordinates
         selected_indexes = list(range(num_valid_windows[n])) # create list of indexes
         np.random.shuffle(selected_indexes) # shuffle the indexes
-        selected_indexes = selected_indexes[0:windows_per_file[n]] # select the first windows_per_file indexes
+        selected_indexes = selected_indexes[:windows_per_file[n]] # select the first windows_per_file indexes
         for i in selected_indexes:
             x = valid_indexes[0][i]
             y = valid_indexes[1][i]
@@ -136,6 +132,7 @@ def get_train_window_dls(folder: str, win_rad: int, total_batches: int, batchsiz
     
     # create DataLoader objects
     train_data = torch.utils.data.TensorDataset(torch.from_numpy(window_container_train), torch.from_numpy(c1_container_train))
+    
     # cut data to fit the number of batches total_batches
     train_data.tensors = (train_data.tensors[0][:total_batches*batchsize], train_data.tensors[1][:total_batches*batchsize])    
     train_loader = torch.utils.data.DataLoader(train_data, batch_size=batchsize, shuffle=shuffle, num_workers=num_workers, prefetch_factor=4)
