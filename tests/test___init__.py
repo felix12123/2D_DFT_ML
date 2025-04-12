@@ -83,7 +83,7 @@ def test_MLTraining_invalid_datafolder():
     dx = 0.5
     datafolder = "invalid_datafolder"
 
-    with pytest.raises(ValueError, match="Data folder does not exist"):
+    with pytest.raises(ValueError, match="Data folder .* does not exist"):
         MLTraining(folder=folder, model=model, L=L, dx=dx, datafolder=datafolder)
 
 @pytest.mark.order(0)

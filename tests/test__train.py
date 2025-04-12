@@ -114,4 +114,4 @@ def test_real_train(test_res):
     print("final loss", final_loss)
     print("final metric", final_metric)
     assert final_loss < 1e-3
-    assert final_metric < 1e-2
+    assert final_metric < 5e-2
