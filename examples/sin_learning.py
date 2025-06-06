@@ -3,7 +3,6 @@
 # To run this example, you need to import this file from the main.py file
 
 # Importing the necessary libraries
-# Add the src directory to the Python path
 import os
 import numpy as np
 import shutil

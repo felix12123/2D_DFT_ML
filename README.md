@@ -3,7 +3,7 @@
 This repository contains a proof-of-concept implementation of bringing neural density functional theory of hard particles to higher dimensions (here 2D). It is discussed in the following preprint:
 
 **Neural Density Functional Theory in Higher Dimensions with Convolutional Layers**
-*Felix Glitsch, Jens Weimar, Martin Oettel, [arXiv:2502.13717 [cond-mat.stat-mech]](https://arxiv.org/abs/2502.13717)*
+*Felix Glitsch, Jens Weimar, Martin Oettel, [Phys. Rev. E **111**, 055305](https://doi.org/10.1103/PhysRevE.111.055305), [arXiv:2502.13717 [cond-mat.stat-mech]](https://arxiv.org/abs/2502.13717)*
 
 ## Setup
 
@@ -26,6 +26,8 @@ and run the main file with
 uv run main.py
 ```
 
+or execute the accompanying `jupyter` notebook.
+
 ## Tests
 
 Some simple tests to check the basic functionality of the repository are implemented using pytest.
@@ -34,5 +36,3 @@ Run tests with
 ```text
 pytest
 ```
-
-A short `jupyter` notebook presenting the key features is planned.
